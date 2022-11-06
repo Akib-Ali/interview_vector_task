@@ -1,13 +1,30 @@
+import axios from "axios"
+import { useState } from "react"
+import { UserInterface } from "./ui"
 export const FetchComponent=()=>{
+
+    const [storeData, setStoreData]= useState([])
 
 
 
 
     const fetchAPI=()=>{
+        axios({
+            method:"get",
+            url:"https://jsonplaceholder.typicode.com/users"
+        }).then((res)=>{
+            setStoreData(res.data)
+
+        }).catch((err)=>{
+            console.log(err)
+
+        })
 
 
-        
+
+
     }
+    console.log(storeData)
 
 
     return(
@@ -24,9 +41,22 @@ export const FetchComponent=()=>{
             </div>
 
              <div style={{display:"flex" , gap:"30px"}}>
-                <button style={{backgroundColor:"black", color:"white"}}>Show Name</button>
+                <button style={{backgroundColor:"black", color:"white"}} onClick={fetchAPI}>Show Name</button>
                 <button style={{backgroundColor:"black", color:"white"}}>Sort Name</button>
              </div>
+
+             {storeData.map((elem,index)=>(
+                <UserInterface key={index}
+                              id={index}
+                              elem={elem}
+
+                />
+
+             )
+
+
+             )}
+             
         </div>
     )
 }
