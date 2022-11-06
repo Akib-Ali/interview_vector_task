@@ -4,6 +4,7 @@ import { UserInterface } from "./ui"
 export const FetchComponent=()=>{
 
     const [storeData, setStoreData]= useState([])
+    const [count,setCount] = useState(1)
 
 
 
@@ -27,6 +28,27 @@ export const FetchComponent=()=>{
     console.log(storeData)
 
 
+
+
+    const handleSort=()=>{
+
+        setCount(count+2);
+        let newData = [...storeData]
+         
+         if(count === 1 || count % 3 === 1){
+            setStoreData(newData.sort((a,b)=> a.name.length - b.name.length))
+
+         }else if(count % 3 === 0){
+            setStoreData(newData.sort((a,b)=> b.name.length - a.name.length))
+
+       }else if(count % 3 == 2){
+          fetchAPI()
+
+       }
+      
+    }
+
+
     return(
         <div>
             <h1>Task </h1>
@@ -42,8 +64,10 @@ export const FetchComponent=()=>{
 
              <div style={{display:"flex" , gap:"30px"}}>
                 <button style={{backgroundColor:"black", color:"white"}} onClick={fetchAPI}>Show Name</button>
-                <button style={{backgroundColor:"black", color:"white"}}>Sort Name</button>
+                <button style={{backgroundColor:"black", color:"white"}} onClick={handleSort}>Sort Name</button>
              </div>
+
+             <h2>{count}</h2>
 
              {storeData.map((elem,index)=>(
                 <UserInterface key={index}
